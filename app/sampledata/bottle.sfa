@@ -1,0 +1,28 @@
+{
+  materials: [
+    {
+      name: 'DefaultMaterial',
+      parameters: [
+        {
+          videoTexture: {
+            external_path: 'MISSING_PATH',
+          },
+        },
+      ],
+      source: 'sampledata/video_plane.mat',
+    },
+  ],
+  model: {
+    attributes: [
+      'Position',
+      'TexCoord',
+      'Orientation',
+    ],
+    collision: {},
+    file: 'sampledata/bottle.obj',
+    name: 'bottle',
+    recenter: 'root',
+    scale: 0.081410999999999997,
+  },
+  version: '0.54:2',
+}
