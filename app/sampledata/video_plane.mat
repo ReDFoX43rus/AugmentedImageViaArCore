@@ -9,12 +9,15 @@ material {
         {
             type : float,
             name : maxWidth
+        },
+        {
+            type : float,
+            name : alpha
         }
     ],
     requires : [ uv0 ],
     shadingModel : unlit,
-    blending : masked,
-    maskThreshold : 0.5,
+    blending : transparent
 }
 
 fragment {
@@ -30,8 +33,10 @@ fragment {
 
         material.baseColor.rgb = inverseTonemapSRGB(color.rgb);
 
+        material.baseColor.rgba *= materialParams.alpha;
+
         if(abs(0.5 - uv.x) > materialParams.maxWidth) {
-            material.baseColor.a = 0.0;
+            material.baseColor.rgba *= 0.0;
         }
     }
 }

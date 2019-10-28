@@ -1,10 +1,12 @@
 package com.liberaid.sceneformtest
 
+import android.animation.ValueAnimator
 import android.media.MediaMetadataRetriever
 import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.view.animation.DecelerateInterpolator
 import androidx.appcompat.app.AppCompatActivity
 import com.google.ar.core.AugmentedImage
 import com.google.ar.core.TrackingState
@@ -131,6 +133,17 @@ class MainActivity : AppCompatActivity() {
 
                         val scaledImageWidth = image.extentX / scale.x
                         it.material.setFloat("maxWidth", scaledImageWidth / 2f)
+
+                        it.material.setFloat("alpha", 0f)
+
+                        ValueAnimator.ofFloat(0f, 1f).apply {
+                            duration = 500L
+                            interpolator = DecelerateInterpolator()
+                            addUpdateListener { animator ->
+                                it.material.setFloat("alpha", animator.animatedFraction)
+                            }
+                            start()
+                        }
                     }
                 }
 
