@@ -44,6 +44,8 @@ class AugmentedImageFragment : ArFragment() {
             it.addImage("qc_frame_gs.png", bitmap)
         }
 
+        Log.d("AUGMENTED_IMAGE", "Prev focus mode: ${config.focusMode}")
+        config.focusMode = Config.FocusMode.AUTO
         config.setAugmentedImageDatabase(db)
         return true
     }
