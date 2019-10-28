@@ -30,9 +30,7 @@ fragment {
         }
 
         vec4 color = texture(materialParams_videoTexture, uv).rgba;
-
         material.baseColor.rgb = inverseTonemapSRGB(color.rgb);
-
         material.baseColor.rgba *= materialParams.alpha;
 
         if(abs(0.5 - uv.x) > materialParams.maxWidth) {
