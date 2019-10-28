@@ -113,10 +113,11 @@ class MainActivity : AppCompatActivity() {
                 anchorNode.setParent(arFragment.arSceneView.scene)
 
                 val scaleType = if(videoWidth == 0f || videoHeight == 0f) ScaleType.FIT_XY else ScaleType.CENTER_CROP
+                val scale = scaleType.getScale(image.extentX, image.extentZ, videoWidth, videoHeight)
 
                 val videoNode = Node().apply {
                     setParent(anchorNode)
-                    localScale = scaleType.getScale(image.extentX, image.extentZ, videoWidth, videoHeight)
+                    localScale = scale
                 }
 
                 texture.surfaceTexture.setOnFrameAvailableListener {
@@ -127,6 +128,9 @@ class MainActivity : AppCompatActivity() {
                         it.isShadowReceiver = false
                         it.isShadowCaster = false
                         it.material.setExternalTexture("videoTexture", texture)
+
+                        val scaledImageWidth = image.extentX / scale.x
+                        it.material.setFloat("maxWidth", scaledImageWidth / 2f)
                     }
                 }
 

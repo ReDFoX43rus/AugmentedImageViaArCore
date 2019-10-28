@@ -60,12 +60,12 @@ sceneform.asset('sampledata/chroma_key_video.obj',
         'sampledata/chroma_key_video.sfa',
         'src/main/assets/chroma_key_video')
 
-sceneform.asset('sampledata/video_plane.obj',
-        'sampledata/video_plane.mat',
-        'sampledata/video_plane.sfa',
-        'src/main/assets/video_plane')
-
 sceneform.asset('sampledata/bottle.obj',
         'sampledata/video_plane.mat',
         'sampledata/bottle.sfa',
         'src/main/assets/bottle')
+
+sceneform.asset('sampledata/video_plane.obj',
+        'sampledata/video_plane.mat',
+        'sampledata/video_plane.sfa',
+        'src/main/assets/video_plane')

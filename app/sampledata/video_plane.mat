@@ -5,11 +5,16 @@ material {
             // The texture displaying the frames of the video.
             type : samplerExternal,
             name : videoTexture
+        },
+        {
+            type : float,
+            name : maxWidth
         }
     ],
     requires : [ uv0 ],
     shadingModel : unlit,
-    blending : opaque
+    blending : masked,
+    maskThreshold : 0.5,
 }
 
 fragment {
@@ -24,5 +29,9 @@ fragment {
         vec4 color = texture(materialParams_videoTexture, uv).rgba;
 
         material.baseColor.rgb = inverseTonemapSRGB(color.rgb);
+
+        if(abs(0.5 - uv.x) > materialParams.maxWidth) {
+            material.baseColor.a = 0.0;
+        }
     }
 }

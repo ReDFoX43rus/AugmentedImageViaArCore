@@ -8,6 +8,9 @@
             external_path: 'MISSING_PATH',
           },
         },
+        {
+          cropOffset: 0,
+        },
       ],
       source: 'sampledata/video_plane.mat',
     },
