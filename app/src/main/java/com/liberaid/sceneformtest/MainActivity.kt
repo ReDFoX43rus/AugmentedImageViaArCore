@@ -74,7 +74,7 @@ class MainActivity : AppCompatActivity() {
         val texture = ExternalTexture()
 
         Log.d(tag, "Create mediaPlayer")
-        mediaPlayer = MediaPlayer.create(this, R.raw.quad_colors).apply {
+        mediaPlayer = MediaPlayer.create(this, R.raw.take_part).apply {
             setSurface(texture.surface)
             isLooping = true
             setVolume(0f, 0f)
@@ -84,32 +84,15 @@ class MainActivity : AppCompatActivity() {
 
         val anchorNode = AnchorNode()
 
-
-
         Log.d(tag, "Load renderables")
 
         val planeFilename = "video_plane.sfb"
-        val loadPlaneFuture: () -> CompletableFuture<ModelRenderable> = {
-            ModelRenderable.builder()
-                .setSource(this, Uri.parse(planeFilename))
-                .build()
-        }
 
-        val frontPlane = loadPlaneFuture()
-        val topPlane = loadPlaneFuture()
-        val bottomPlane = loadPlaneFuture()
-        val leftPlane = loadPlaneFuture()
-        val rightPlane = loadPlaneFuture()
-
-        val setupPlaneRenderable: (ModelRenderable) -> Unit = {
-            it.isShadowCaster = false
-            it.isShadowReceiver = false
-            it.material.setExternalTexture("videoTexture", texture)
-        }
-
-        CompletableFuture.allOf(frontPlane, topPlane, bottomPlane, leftPlane, rightPlane)
-            .thenAccept {
-                Log.d(tag, "Renderables are loaded")
+        ModelRenderable.builder()
+            .setSource(this, Uri.parse(planeFilename))
+            .build()
+            .thenAccept { renderable ->
+                Log.d(tag, "Renderable is loaded")
 
                 anchorNode.anchor = image.createAnchor(image.centerPose)
                 anchorNode.setParent(arFragment.arSceneView.scene)
@@ -119,18 +102,15 @@ class MainActivity : AppCompatActivity() {
                     localScale = Vector3(image.extentX, 1f, image.extentZ)
                 }
 
-                val topPlaneVideoNode = Node().apply {
-                    setParent(anchorNode)
-                    localScale = Vector3(image.extentX, 1f, image.extentZ)
-                    localRotation = Quaternion.axisAngle(Vector3(0f, 0f, 1f), -90f)
-                }
-
                 texture.surfaceTexture.setOnFrameAvailableListener {
                     it.setOnFrameAvailableListener(null)
 
                     Log.d(tag, "Assign renderable")
-                    frontPlaneVideoNode.renderable = frontPlane.getNow(null)?.also(setupPlaneRenderable)
-//                    topPlaneVideoNode.renderable = topPlane.getNow(null)?.also(setupPlaneRenderable)
+                    frontPlaneVideoNode.renderable = renderable.also {
+                        it.isShadowReceiver = false
+                        it.isShadowCaster = false
+                        it.material.setExternalTexture("videoTexture", texture)
+                    }
                 }
 
                 Log.d(tag, "Start mediaPlayer")
