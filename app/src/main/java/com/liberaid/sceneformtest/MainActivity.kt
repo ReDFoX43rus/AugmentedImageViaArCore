@@ -1,5 +1,6 @@
 package com.liberaid.sceneformtest
 
+import android.media.MediaMetadataRetriever
 import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
@@ -10,12 +11,10 @@ import com.google.ar.core.TrackingState
 import com.google.ar.sceneform.AnchorNode
 import com.google.ar.sceneform.FrameTime
 import com.google.ar.sceneform.Node
-import com.google.ar.sceneform.math.Quaternion
-import com.google.ar.sceneform.math.Vector3
 import com.google.ar.sceneform.rendering.ExternalTexture
 import com.google.ar.sceneform.rendering.ModelRenderable
 import com.google.ar.sceneform.ux.ArFragment
-import java.util.concurrent.CompletableFuture
+import com.liberaid.sceneformtest.scaletype.ScaleType
 
 class MainActivity : AppCompatActivity() {
 
@@ -74,10 +73,26 @@ class MainActivity : AppCompatActivity() {
         val texture = ExternalTexture()
 
         Log.d(tag, "Create mediaPlayer")
-        mediaPlayer = MediaPlayer.create(this, R.raw.take_part).apply {
+        val videoFilename = "take_part.mp4"
+
+        mediaPlayer = MediaPlayer().apply {
             setSurface(texture.surface)
             isLooping = true
             setVolume(0f, 0f)
+        }
+
+        var videoWidth = 0f
+        var videoHeight = 0f
+        assets.openFd(videoFilename).use { descriptor ->
+
+            val metadataRetriever = MediaMetadataRetriever().apply {
+                setDataSource(descriptor.fileDescriptor, descriptor.startOffset, descriptor.length)
+            }
+
+            videoWidth = metadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH).toFloatOrNull() ?: 0f
+            videoHeight = metadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT).toFloatOrNull() ?: 0f
+
+            mediaPlayer?.setDataSource(descriptor)
         }
 
         Log.d(tag, "Create video plane")
@@ -97,16 +112,18 @@ class MainActivity : AppCompatActivity() {
                 anchorNode.anchor = image.createAnchor(image.centerPose)
                 anchorNode.setParent(arFragment.arSceneView.scene)
 
-                val frontPlaneVideoNode = Node().apply {
+                val scaleType = if(videoWidth == 0f || videoHeight == 0f) ScaleType.FIT_XY else ScaleType.CENTER_CROP
+
+                val videoNode = Node().apply {
                     setParent(anchorNode)
-                    localScale = Vector3(image.extentX, 1f, image.extentZ)
+                    localScale = scaleType.getScale(image.extentX, image.extentZ, videoWidth, videoHeight)
                 }
 
                 texture.surfaceTexture.setOnFrameAvailableListener {
                     it.setOnFrameAvailableListener(null)
 
                     Log.d(tag, "Assign renderable")
-                    frontPlaneVideoNode.renderable = renderable.also {
+                    videoNode.renderable = renderable.also {
                         it.isShadowReceiver = false
                         it.isShadowCaster = false
                         it.material.setExternalTexture("videoTexture", texture)
@@ -114,6 +131,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 Log.d(tag, "Start mediaPlayer")
+                mediaPlayer?.prepare()
                 mediaPlayer?.start()
             }
 
