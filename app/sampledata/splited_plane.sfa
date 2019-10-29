@@ -1,0 +1,33 @@
+{
+  materials: [
+    {
+      name: 'None',
+      parameters: [
+        {
+          videoTexture: {
+            external_path: 'MISSING_PATH',
+          },
+        },
+        {
+          maxWidth: 0,
+        },
+        {
+          alpha: 0,
+        },
+      ],
+      source: 'sampledata/video_plane.mat',
+    },
+  ],
+  model: {
+    attributes: [
+      'Position',
+      'TexCoord',
+      'Orientation',
+    ],
+    collision: {},
+    file: 'sampledata/splited_plane.obj',
+    name: 'splited_plane',
+    recenter: 'root',
+  },
+  version: '0.54:2',
+}

@@ -69,3 +69,8 @@ sceneform.asset('sampledata/video_plane.obj',
         'sampledata/video_plane.mat',
         'sampledata/video_plane.sfa',
         'src/main/assets/video_plane')
+
+sceneform.asset('sampledata/splited_plane.obj',
+        'sampledata/video_plane.mat',
+        'sampledata/splited_plane.sfa',
+        'src/main/assets/splited_plane')

@@ -17,7 +17,19 @@ material {
     ],
     requires : [ uv0 ],
     shadingModel : unlit,
-    blending : transparent
+    blending : transparent,
+    vertexDomain : object
+}
+
+vertex {
+    void materialVertex(inout MaterialVertexInputs material) {
+        vec4 pos = getPosition();
+
+        float radius = 0.35;
+        pos.y = sqrt(sq(radius) - sq(pos.x)) - radius;
+
+        material.worldPosition = getWorldFromModelMatrix() * pos;
+    }
 }
 
 fragment {

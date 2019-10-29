@@ -103,7 +103,7 @@ class MainActivity : AppCompatActivity() {
 
         Log.d(tag, "Load renderables")
 
-        val planeFilename = "video_plane.sfb"
+        val planeFilename = "splited_plane.sfb"
 
         ModelRenderable.builder()
             .setSource(this, Uri.parse(planeFilename))
