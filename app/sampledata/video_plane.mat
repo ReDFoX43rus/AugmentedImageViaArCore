@@ -13,6 +13,14 @@ material {
         {
             type : float,
             name : alpha
+        },
+        {
+            type : float,
+            name : radius
+        },
+        {
+            type : float,
+            name : vertexScale
         }
     ],
     requires : [ uv0 ],
@@ -25,8 +33,10 @@ vertex {
     void materialVertex(inout MaterialVertexInputs material) {
         vec4 pos = getPosition();
 
-        float radius = 0.35;
+        float radius = materialParams.radius;
         pos.y = sqrt(sq(radius) - sq(pos.x)) - radius;
+
+        pos.xyz *= materialParams.vertexScale;
 
         material.worldPosition = getWorldFromModelMatrix() * pos;
     }

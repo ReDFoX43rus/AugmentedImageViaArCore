@@ -1,5 +1,6 @@
 package com.liberaid.sceneformtest
 
+import android.animation.Animator
 import android.animation.ValueAnimator
 import android.media.MediaMetadataRetriever
 import android.media.MediaPlayer
@@ -133,9 +134,9 @@ class MainActivity : AppCompatActivity() {
 
                         val scaledImageWidth = image.extentX / scale.x
                         it.material.setFloat("maxWidth", scaledImageWidth / 2f)
-
+                        it.material.setFloat("radius", 1f)
                         it.material.setFloat("alpha", 0f)
-
+                        it.material.setFloat("vertexScale", 1.2f)
                         ValueAnimator.ofFloat(0f, 1f).apply {
                             duration = 500L
                             interpolator = DecelerateInterpolator()
