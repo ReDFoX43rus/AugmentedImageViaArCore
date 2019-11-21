@@ -1,30 +1,29 @@
 package com.liberaid.sceneformtest
 
-import android.animation.Animator
 import android.animation.ValueAnimator
-import android.media.MediaMetadataRetriever
-import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
+import android.os.SystemClock
 import android.util.Log
-import android.view.animation.DecelerateInterpolator
 import androidx.appcompat.app.AppCompatActivity
 import com.google.ar.core.AugmentedImage
 import com.google.ar.core.TrackingState
 import com.google.ar.sceneform.AnchorNode
 import com.google.ar.sceneform.FrameTime
 import com.google.ar.sceneform.Node
-import com.google.ar.sceneform.rendering.ExternalTexture
+import com.google.ar.sceneform.animation.ModelAnimator
+import com.google.ar.sceneform.math.Quaternion
+import com.google.ar.sceneform.math.Vector3
 import com.google.ar.sceneform.rendering.ModelRenderable
 import com.google.ar.sceneform.ux.ArFragment
 import com.liberaid.sceneformtest.scaletype.ScaleType
+import timber.log.Timber
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var arFragment: ArFragment
 
     private val augmentedImagesNodes = mutableMapOf<AugmentedImage, AnchorNode>()
-    private var mediaPlayer: MediaPlayer? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,6 +48,8 @@ class MainActivity : AppCompatActivity() {
                     if(augmentedImagesNodes.containsKey(augImage))
                         return
 
+                    Timber.d("ImageFound=${SystemClock.elapsedRealtime()}")
+
                     Log.d(tag, "Tracking started $augImage")
                     Log.d(tag, "Add image to map")
 
@@ -71,40 +72,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun playVideo(image: AugmentedImage): AnchorNode {
-        releaseMediaPlayer()
-
-        val texture = ExternalTexture()
-
-        Log.d(tag, "Create mediaPlayer")
-        val videoFilename = "take_part.mp4"
-
-        mediaPlayer = MediaPlayer().apply {
-            setSurface(texture.surface)
-            isLooping = true
-            setVolume(0f, 0f)
-        }
-
-        var videoWidth = 0f
-        var videoHeight = 0f
-        assets.openFd(videoFilename).use { descriptor ->
-
-            val metadataRetriever = MediaMetadataRetriever().apply {
-                setDataSource(descriptor.fileDescriptor, descriptor.startOffset, descriptor.length)
-            }
-
-            videoWidth = metadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH).toFloatOrNull() ?: 0f
-            videoHeight = metadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT).toFloatOrNull() ?: 0f
-
-            mediaPlayer?.setDataSource(descriptor)
-        }
-
-        Log.d(tag, "Create video plane")
 
         val anchorNode = AnchorNode()
 
         Log.d(tag, "Load renderables")
 
-        val planeFilename = "splited_plane.sfb"
+        val planeFilename = "man10_backed.sfb"
 
         ModelRenderable.builder()
             .setSource(this, Uri.parse(planeFilename))
@@ -115,56 +88,36 @@ class MainActivity : AppCompatActivity() {
                 anchorNode.anchor = image.createAnchor(image.centerPose)
                 anchorNode.setParent(arFragment.arSceneView.scene)
 
-                val scaleType = if(videoWidth == 0f || videoHeight == 0f) ScaleType.FIT_XY else ScaleType.CENTER_CROP
-                val scale = scaleType.getScale(image.extentX, image.extentZ, videoWidth, videoHeight)
-
-                val videoNode = Node().apply {
+                val node = Node().apply {
                     setParent(anchorNode)
-                    localScale = scale
+                    setRenderable(renderable)
+                    val rot1 = Quaternion.axisAngle(Vector3(1f, 0f, 0f), -90f)
+                    val rot2 = Quaternion.axisAngle(Vector3(0f, 0f, 1f), 180f)
+                    val result = Quaternion.multiply(rot2, rot1)
+                    localRotation = result
+
+                    val scale = .1f
+                    localScale = Vector3.one().scaled(scale)
+
+                    localPosition = Vector3(0f, 0f, image.extentZ / 2)
                 }
 
-                texture.surfaceTexture.setOnFrameAvailableListener {
-                    it.setOnFrameAvailableListener(null)
+                val animations = renderable.animationDataCount
+                Timber.d("Animations: $animations")
 
-                    Log.d(tag, "Assign renderable")
-                    videoNode.renderable = renderable.also {
-                        it.isShadowReceiver = false
-                        it.isShadowCaster = false
-                        it.material.setExternalTexture("videoTexture", texture)
+                if(animations <= 0)
+                    return@thenAccept
 
-                        val scaledImageWidth = image.extentX / scale.x
-                        it.material.setFloat("maxWidth", scaledImageWidth / 2f)
-                        it.material.setFloat("radius", 1f)
-                        it.material.setFloat("alpha", 0f)
-                        it.material.setFloat("vertexScale", 1.2f)
-                        ValueAnimator.ofFloat(0f, 1f).apply {
-                            duration = 500L
-                            interpolator = DecelerateInterpolator()
-                            addUpdateListener { animator ->
-                                it.material.setFloat("alpha", animator.animatedFraction)
-                            }
-                            start()
-                        }
-                    }
-                }
+                val speakAnimation = renderable.getAnimationData(0)
+                val animator = ModelAnimator(speakAnimation, renderable)
+                animator.repeatCount = ValueAnimator.INFINITE
+                animator.duration = 8000L
+                animator.start()
 
-                Log.d(tag, "Start mediaPlayer")
-                mediaPlayer?.prepare()
-                mediaPlayer?.start()
+                Timber.d("Started animation name=${speakAnimation.name}, duration=${speakAnimation.durationMs}")
             }
 
         return anchorNode
-    }
-
-    private fun releaseMediaPlayer() {
-        mediaPlayer?.release()
-        mediaPlayer = null
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-
-        releaseMediaPlayer()
     }
 
     companion object {

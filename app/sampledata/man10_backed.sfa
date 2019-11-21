@@ -1,0 +1,466 @@
+{
+  animations: [
+    {
+      clips: [
+        {
+          name: 'Ml1|Action',
+        },
+        {
+          name: 'Ml1|Ml1Action',
+        },
+      ],
+      path: 'sampledata/man10_backed.fbx',
+    },
+  ],
+  materials: [
+    {
+      name: 'Ml1:Shoes03:Shoes03',
+      parameters: [
+        {
+          baseColor: [
+            1,
+            1,
+            1,
+            1,
+          ],
+        },
+        {
+          baseColorMap: 'shoes03_diffuse',
+        },
+        {
+          normalMap: null,
+        },
+        {
+          interpolatedColor: null,
+        },
+        {
+          metallic: 0,
+        },
+        {
+          metallicMap: null,
+        },
+        {
+          roughness: 1,
+        },
+        {
+          roughnessMap: null,
+        },
+        {
+          opacity: null,
+        },
+      ],
+      source: 'build/sceneform_sdk/default_materials/fbx_material.sfm',
+    },
+    {
+      name: 'Ml1:Male_casualsuit05:Male_casualsuit05',
+      parameters: [
+        {
+          baseColor: [
+            1,
+            1,
+            1,
+            1,
+          ],
+        },
+        {
+          baseColorMap: 'male_casualsuit05_diffuse',
+        },
+        {
+          normalMap: 'male_casualsuit05_normal',
+        },
+        {
+          interpolatedColor: null,
+        },
+        {
+          metallic: 0,
+        },
+        {
+          metallicMap: null,
+        },
+        {
+          roughness: 1,
+        },
+        {
+          roughnessMap: null,
+        },
+        {
+          opacity: null,
+        },
+      ],
+      source: 'build/sceneform_sdk/default_materials/fbx_material.sfm',
+    },
+    {
+      name: 'Ml1:Short04:Short04',
+      parameters: [
+        {
+          baseColor: [
+            1,
+            1,
+            1,
+            1,
+          ],
+        },
+        {
+          baseColorMap: 'short04_diffuse',
+        },
+        {
+          normalMap: null,
+        },
+        {
+          interpolatedColor: null,
+        },
+        {
+          metallic: 0,
+        },
+        {
+          metallicMap: null,
+        },
+        {
+          roughness: 1,
+        },
+        {
+          roughnessMap: null,
+        },
+        {
+          opacity: null,
+        },
+      ],
+      source: 'build/sceneform_sdk/default_materials/fbx_material.sfm',
+    },
+    {
+      name: 'Ml1:Male_muscle_13290:Middleage_cauasian_male',
+      parameters: [
+        {
+          baseColor: [
+            1,
+            1,
+            1,
+            1,
+          ],
+        },
+        {
+          baseColorMap: 'middleage_lightskinned_male_diffuse',
+        },
+        {
+          normalMap: null,
+        },
+        {
+          interpolatedColor: null,
+        },
+        {
+          metallic: 0,
+        },
+        {
+          metallicMap: null,
+        },
+        {
+          roughness: 1,
+        },
+        {
+          roughnessMap: null,
+        },
+        {
+          opacity: null,
+        },
+      ],
+      source: 'build/sceneform_sdk/default_materials/fbx_material.sfm',
+    },
+    {
+      name: 'Ml1:Tongue01:Tongue01material',
+      parameters: [
+        {
+          baseColor: [
+            1,
+            1,
+            1,
+            1,
+          ],
+        },
+        {
+          baseColorMap: 'tongue01_diffuse',
+        },
+        {
+          normalMap: null,
+        },
+        {
+          interpolatedColor: null,
+        },
+        {
+          metallic: 0,
+        },
+        {
+          metallicMap: null,
+        },
+        {
+          roughness: 1,
+        },
+        {
+          roughnessMap: null,
+        },
+        {
+          opacity: null,
+        },
+      ],
+      source: 'build/sceneform_sdk/default_materials/fbx_material.sfm',
+    },
+    {
+      name: 'Ml1:Teeth_shape02:Teethmaterial',
+      parameters: [
+        {
+          baseColor: [
+            1,
+            1,
+            1,
+            1,
+          ],
+        },
+        {
+          baseColorMap: 'teeth',
+        },
+        {
+          normalMap: null,
+        },
+        {
+          interpolatedColor: null,
+        },
+        {
+          metallic: 0,
+        },
+        {
+          metallicMap: null,
+        },
+        {
+          roughness: 1,
+        },
+        {
+          roughnessMap: null,
+        },
+        {
+          opacity: null,
+        },
+      ],
+      source: 'build/sceneform_sdk/default_materials/fbx_material.sfm',
+    },
+    {
+      name: 'Ml1:Eyelashes01:Bodymaterial',
+      parameters: [
+        {
+          baseColor: [
+            1,
+            1,
+            1,
+            1,
+          ],
+        },
+        {
+          baseColorMap: 'eyelashes01',
+        },
+        {
+          normalMap: null,
+        },
+        {
+          interpolatedColor: null,
+        },
+        {
+          metallic: 0,
+        },
+        {
+          metallicMap: null,
+        },
+        {
+          roughness: 1,
+        },
+        {
+          roughnessMap: null,
+        },
+        {
+          opacity: null,
+        },
+      ],
+      source: 'build/sceneform_sdk/default_materials/fbx_material.sfm',
+    },
+    {
+      name: 'Ml1:Eyebrow009:Eyebrow009',
+      parameters: [
+        {
+          baseColor: [
+            1,
+            1,
+            1,
+            1,
+          ],
+        },
+        {
+          baseColorMap: 'eyebrow009',
+        },
+        {
+          normalMap: null,
+        },
+        {
+          interpolatedColor: null,
+        },
+        {
+          metallic: 0,
+        },
+        {
+          metallicMap: null,
+        },
+        {
+          roughness: 1,
+        },
+        {
+          roughnessMap: null,
+        },
+        {
+          opacity: null,
+        },
+      ],
+      source: 'build/sceneform_sdk/default_materials/fbx_material.sfm',
+    },
+    {
+      name: 'Ml1:High-poly:Eye_brownlight',
+      parameters: [
+        {
+          baseColor: [
+            1,
+            1,
+            1,
+            1,
+          ],
+        },
+        {
+          baseColorMap: 'brownlight_eye',
+        },
+        {
+          normalMap: null,
+        },
+        {
+          interpolatedColor: null,
+        },
+        {
+          metallic: 0,
+        },
+        {
+          metallicMap: null,
+        },
+        {
+          roughness: 1,
+        },
+        {
+          roughnessMap: null,
+        },
+        {
+          opacity: null,
+        },
+      ],
+      source: 'build/sceneform_sdk/default_materials/fbx_material.sfm',
+    },
+    {
+      name: 'unnamed material',
+      parameters: [
+        {
+          baseColor: [
+            1,
+            1,
+            1,
+            1,
+          ],
+        },
+        {
+          baseColorMap: null,
+        },
+        {
+          normalMap: null,
+        },
+        {
+          interpolatedColor: null,
+        },
+        {
+          metallic: 0,
+        },
+        {
+          metallicMap: null,
+        },
+        {
+          roughness: 1,
+        },
+        {
+          roughnessMap: null,
+        },
+        {
+          opacity: null,
+        },
+      ],
+      source: 'build/sceneform_sdk/default_materials/fbx_material.sfm',
+    },
+  ],
+  model: {
+    attributes: [
+      'Position',
+      'TexCoord',
+      'Orientation',
+      'BoneIndices',
+      'BoneWeights',
+    ],
+    collision: {},
+    file: 'sampledata/man10_backed.fbx',
+    name: 'man10_backed',
+    recenter: 'root',
+  },
+  samplers: [
+    {
+      file: 'sampledata\\textures\\shoes03_diffuse.png',
+      name: 'shoes03_diffuse',
+      pipeline_name: 'textures\\shoes03_diffuse.png',
+    },
+    {
+      file: 'sampledata\\textures\\eyebrow009.png',
+      name: 'eyebrow009',
+      pipeline_name: 'textures\\eyebrow009.png',
+    },
+    {
+      file: 'sampledata\\textures\\brownlight_eye.png',
+      name: 'brownlight_eye',
+      pipeline_name: 'textures\\brownlight_eye.png',
+    },
+    {
+      file: 'sampledata\\textures\\male_casualsuit05_diffuse.png',
+      name: 'male_casualsuit05_diffuse',
+      pipeline_name: 'textures\\male_casualsuit05_diffuse.png',
+    },
+    {
+      file: 'sampledata\\textures\\male_casualsuit05_normal.png',
+      name: 'male_casualsuit05_normal',
+      params: {
+        usage_type: 'Normal',
+      },
+      pipeline_name: 'textures\\male_casualsuit05_normal.png',
+    },
+    {
+      file: 'sampledata\\textures\\short04_diffuse.png',
+      name: 'short04_diffuse',
+      pipeline_name: 'textures\\short04_diffuse.png',
+    },
+    {
+      file: 'sampledata\\textures\\teeth.png',
+      name: 'teeth',
+      pipeline_name: 'textures\\teeth.png',
+    },
+    {
+      file: 'sampledata\\textures\\middleage_lightskinned_male_diffuse.png',
+      name: 'middleage_lightskinned_male_diffuse',
+      pipeline_name: 'textures\\middleage_lightskinned_male_diffuse.png',
+    },
+    {
+      file: 'sampledata\\textures\\tongue01_diffuse.png',
+      name: 'tongue01_diffuse',
+      pipeline_name: 'textures\\tongue01_diffuse.png',
+    },
+    {
+      file: 'sampledata\\textures\\eyelashes01.png',
+      name: 'eyelashes01',
+      pipeline_name: 'textures\\eyelashes01.png',
+    },
+  ],
+  version: '0.54:2',
+}
