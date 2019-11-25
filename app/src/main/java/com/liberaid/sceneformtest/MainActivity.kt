@@ -91,15 +91,36 @@ class MainActivity : AppCompatActivity() {
                 val node = Node().apply {
                     setParent(anchorNode)
                     setRenderable(renderable)
-                    val rot1 = Quaternion.axisAngle(Vector3(1f, 0f, 0f), -90f)
-                    val rot2 = Quaternion.axisAngle(Vector3(0f, 0f, 1f), 180f)
-                    val result = Quaternion.multiply(rot2, rot1)
-                    localRotation = result
 
                     val scale = .1f
                     localScale = Vector3.one().scaled(scale)
 
-                    localPosition = Vector3(0f, 0f, image.extentZ / 2)
+                    localRotation = quaternionFromFloatArray(image.centerPose.rotationQuaternion)
+
+                    val x = image.centerPose.xAxis.map { it }
+                    val y = image.centerPose.yAxis.map { it }
+                    val z = image.centerPose.zAxis.map { it }
+
+                    val rotation = image.centerPose.rotationQuaternion
+                    worldRotation = quaternionFromFloatArray(rotation)
+
+                    Timber.d("x=$x, y=$y, z=$z, rotation=${rotation.toList()}")
+
+                    /* ??? */
+                    if(rotation[3] >= 0.94f) {
+                        /* Horizontal orientation */
+
+                        val rot1 = Quaternion.axisAngle(Vector3(0f, 1f, 0f), 180f)
+                        localRotation = rot1
+                    } else {
+                        /* Vertical orientation */
+
+                        val rot1 = Quaternion.axisAngle(Vector3(1f, 0f, 0f), -90f)
+                        val rot2 = Quaternion.axisAngle(Vector3(0f, 0f, 1f), 180f)
+                        val result = Quaternion.multiply(rot2, rot1)
+                        localRotation = result
+                        localPosition = Vector3(0f, 0f, image.extentZ / 2)
+                    }
                 }
 
                 val animations = renderable.animationDataCount
